@@ -7,9 +7,21 @@
 }
 
 html {
-    font-size: 62, 5%;
+    font-size: 62.5%;
 }
 
 body {
     font-size: 1.6rem;
+    background-image: linear-gradient(to right, #0fbcf9, #05c46b);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.app {
+    max-width: 110rem;
+    position: relative;
+    margin: 6rem auto;
+    box-shadow: 0 3rem 8rem rgba(0, 0, 0, .3);
+    display: flex;
+    background: #d2dae2;
+    min-height: 50rem;
 }
