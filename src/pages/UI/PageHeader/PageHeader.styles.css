@@ -1,0 +1,37 @@
+.page-header {
+    display: flex;
+    background-color: white;
+    padding: 0 2rem;
+}
+
+.page-header__title {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    color: #1e272e;
+    align-self: center;
+}
+
+.page-header__icons-list {
+    margin-left: auto;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    list-style-type: none;
+}
+
+.page-header__list-item {}
+
+.page-header__link {
+    display: block;
+    padding: 2rem;
+    transition: all .2s;
+}
+
+.page-header__link:hover {
+    background-color: #d2dae2;
+}
+
+.page-header__icon {
+    height: 3.5rem;
+    width: 3.5rem;
+}

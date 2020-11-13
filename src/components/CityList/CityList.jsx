@@ -6,10 +6,10 @@ import WeatherInfo from '../WeatherInfo/WeatherInfo'
 //=======> CSS
 import './CityList.styles.css'
 
-const renderCityAndCountry = (CityAndCoutry) => {
+const renderCityAndCountry = (eventOnClick) => (CityAndCoutry) => {
     const { city, country } = CityAndCoutry
     return (
-        <li key={city}>
+        <li key={city} className="city-item" onClick={eventOnClick}>
             <CityInfo city={city} country={country} />
             <WeatherInfo temperature={10} />
         </li>
@@ -17,11 +17,11 @@ const renderCityAndCountry = (CityAndCoutry) => {
     )
 }
 
-const CityList = ({ cities }) => {
+const CityList = ({ cities, onClickAction }) => {
     return (
         <section className="main">
-            <ul>
-                {cities.map(cityAndCoutry => renderCityAndCountry(cityAndCoutry))}
+            <ul className="city-list">
+                {cities.map(cityAndCoutry => renderCityAndCountry(onClickAction)(cityAndCoutry))}
             </ul>
         </section>
         

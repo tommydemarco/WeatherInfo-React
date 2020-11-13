@@ -1,3 +1,26 @@
 .main {
     flex: 1;
 }
+
+.city-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.city-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 2rem;
+    flex: 1;
+    width: 100%;
+}
+
+.city-item:not(:last-child) {
+    margin-bottom: 3rem;
+}

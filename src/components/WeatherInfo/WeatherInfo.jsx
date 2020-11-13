@@ -1,29 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { WiCloud, WiDayCloudy, WiDayFog, WiDaySunny, WiRain } from 'react-icons/wi'
 import { IconContext } from 'react-icons'
+//=======> COMPONENTS 
+import IconState from '../IconState/IconState'
+//=======> CSS
+import './WeatherInfo.styles.css'
 
-const whatIcon = {
-    cloud: WiCloud,
-    cloudy: WiDayCloudy,
-    fog: WiDayFog,
-    sunny: WiDaySunny,
-    rain: WiRain
-}
-
-const renderWeatherIcon = weatherConditions => {
-    const Icon = whatIcon[weatherConditions]
-    if (Icon === undefined ) {
-        return <WiDaySunny />
-    }
-    return <Icon />
-}
 
 const WeatherInfo = ({ temperature, weatherConditions }) => {
     return (
         <div className="temperature">
             <IconContext.Provider value={{size: '40px'}}>
-                {renderWeatherIcon(weatherConditions)}
+                <IconState weatherConditions={weatherConditions} />
             </IconContext.Provider>
             <h4>{temperature}</h4>
         </div>
@@ -32,7 +20,7 @@ const WeatherInfo = ({ temperature, weatherConditions }) => {
 
 WeatherInfo.propTypes = {
     temperature: PropTypes.number.isRequired,
-    weatherConditions: PropTypes.number.isRequired
+    weatherConditions: PropTypes.oneOf(['cloud', 'cloudy', 'sunny', 'fog', 'rain']).isRequired
 }
 
 export default WeatherInfo

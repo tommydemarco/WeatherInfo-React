@@ -13,5 +13,5 @@ test("CityList render", async() => {
     
     const { findAllByRole } = render(<CityList cities={cities} />)
     const items = await findAllByRole("listitem")
-    expect(items).toHaveLength(4)  
+    expect(items).toHaveLength(7)  
 })
