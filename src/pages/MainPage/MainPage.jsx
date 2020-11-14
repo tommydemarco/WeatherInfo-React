@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom'
 const cities = [
     {city: "Milano", country:"Italy"},
     {city: "Bologna", country: "Italy"},
-    {city: "Stuttgard", country: "Germany"},
+    {city: "London", country: "Germany"},
     {city: "Madrid", country: "Spain"}
   ]
 

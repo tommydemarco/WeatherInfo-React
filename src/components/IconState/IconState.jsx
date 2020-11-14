@@ -6,7 +6,7 @@ import { WiCloud, WiDayCloudy, WiDayFog, WiDaySunny, WiRain } from 'react-icons/
 const whatIcon = {
     cloud: WiCloud,
     cloudy: WiDayCloudy,
-    fog: WiDayFog,
+    mist: WiDayFog,
     sunny: WiDaySunny,
     rain: WiRain
 }
