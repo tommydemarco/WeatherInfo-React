@@ -1,30 +1,26 @@
-import React, { useState, useEffect } from 'react'
-//========> AXIOS 
-import axios from 'axios'
+import React from 'react'
 //========> COMPONENTS 
 import CityInfo from '../CityInfo/CityInfo'
 import WeatherInfo from '../WeatherInfo/WeatherInfo'
+//========> CUSTOM HOOKS 
+import { useSingleCityInfo } from '../../hooks/custom-hooks'
+  
 
-const SingleCity = ({city, country, eventOnClick }) => {
+const SingleCity = ({city, country, countryCode, eventOnClick }) => {
     
-    const [weather, setWeather] = useState({})
+    //SINGLE CITY CUSTOM HOOK
+    const { weather, error } = useSingleCityInfo(city)
 
-    useEffect(() => {
-        const fetchWeather = async () => {
-            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=808b3afebe739794e30619383d89e162`)
-            const responseData = response.data
-            setWeather(weather => ({ ...weather, temperature: responseData.main.temp,
-                        weatherConditions:  responseData.weather[0].description }))
-            
-            console.log(`USEEFFECT OF ${city.toUpperCase()}`)
-        }  
-        fetchWeather()
-    }, [city])
-    
     return (
-        <li className="city-item" onClick={() => eventOnClick(city)}>
+        <li className="city-item" onClick={() => eventOnClick(city, countryCode)}>
             <CityInfo city={city} country={country} />
-            <WeatherInfo temperature={weather.temperature} weatherConditions={weather.weatherConditions}/>
+            {
+                !error ?
+                <WeatherInfo temperature={weather.temperature} weatherConditions={weather.weatherConditions}/>
+                :
+                <div className="error">{error}</div>
+            }
+            
         </li>
     )
 }

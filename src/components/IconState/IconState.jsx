@@ -1,14 +1,17 @@
 import React from 'react'
-import { WiCloud, WiDayCloudy, WiDayFog, WiDaySunny, WiRain } from 'react-icons/wi'
+import { WiCloud, WiDayCloudy, WiDayFog, WiDaySunny, WiRain, WiRaindrops, WiSnow, WiThunderstorm } from 'react-icons/wi'
 
 
 //======> HELPER FUNCTIONS 
 const whatIcon = {
     cloud: WiCloud,
-    cloudy: WiDayCloudy,
+    clouds: WiDayCloudy,
     mist: WiDayFog,
-    sunny: WiDaySunny,
-    rain: WiRain
+    clear: WiDaySunny,
+    rain: WiRain,
+    thunderstorm: WiThunderstorm,
+    snow: WiSnow,
+    drizzle: WiRaindrops
 }
 
 const renderWeatherIcon = weatherConditions => {

@@ -7,16 +7,16 @@ import CityList from '../../components/CityList/CityList'
 import { useHistory } from 'react-router-dom'
 
 const cities = [
-    {city: "Milano", country:"Italy"},
-    {city: "Bologna", country: "Italy"},
-    {city: "London", country: "Germany"},
-    {city: "Madrid", country: "Spain"}
+    {city: "Milano", country:"Italy", countryCode: "IT"},
+    {city: "Bologna", country: "Italy", countryCode: "IT"},
+    {city: "London", country: "Great Britain", countryCode: "GB"},
+    {city: "Madrid", country: "Spain", countryCode: "ES"}
   ]
 
 const MainPage = () => {
     const history = useHistory()
-    const redirectToCity = (city) => {
-        history.push(`weather/${city.toLowerCase()}`)
+    const redirectToCity = (city, countryCode) => {
+        history.push(`weather/${countryCode}/${city.toLowerCase()}`)
     }
     return (
         <PageContainer>

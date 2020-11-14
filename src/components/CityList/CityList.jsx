@@ -6,9 +6,9 @@ import SingleCity from '../SingleCity/SingleCity'
 import './CityList.styles.css'
 
 const renderCityAndCountry = (eventOnClick) => (CityAndCoutry) => {
-    const { city, country } = CityAndCoutry
+    const { city, country, countryCode } = CityAndCoutry
     return (
-        <SingleCity key={city} eventOnClick={eventOnClick} city={city} country={country} />        
+        <SingleCity key={city} eventOnClick={eventOnClick} city={city} country={country} countryCode={countryCode} />        
     )
 }
 

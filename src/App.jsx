@@ -21,7 +21,7 @@ const App = () => {
         <Route exact path="/weather">
           <MainPage />
         </Route>
-        <Route exact path="/weather/:city">
+        <Route exact path="/weather/:countryCode/:city">
           <CityPage />
         </Route>
         <Route>
