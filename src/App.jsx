@@ -7,6 +7,7 @@ import TheSidebar from './components/TheSidebar/TheSidebar'
 import WelcomePage from './pages/WelcomePage/WelcomePage'
 import CityPage from './pages/CityPage/CityPage'
 import MainPage from './pages/MainPage/MainPage'
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
 //======> CSS
 import './App.css'
 
@@ -22,6 +23,9 @@ const App = () => {
         </Route>
         <Route exact path="/weather/:city">
           <CityPage />
+        </Route>
+        <Route>
+          <NotFoundPage />
         </Route>
       </Switch>
       {/* <CityList cities={cities} /> */}

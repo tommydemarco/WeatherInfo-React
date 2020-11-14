@@ -1,0 +1,7 @@
+.general-forecast {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}

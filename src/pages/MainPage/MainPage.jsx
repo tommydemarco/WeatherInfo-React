@@ -3,6 +3,8 @@ import React from 'react'
 import PageContainer from '../UI/PageContainer/PageContainer'
 import PageHeader from '../UI/PageHeader/PageHeader'
 import CityList from '../../components/CityList/CityList'
+//======> ROUTING 
+import { useHistory } from 'react-router-dom'
 
 const cities = [
     {city: "Milano", country:"Italy"},
@@ -12,10 +14,14 @@ const cities = [
   ]
 
 const MainPage = () => {
+    const history = useHistory()
+    const redirectToCity = (city) => {
+        history.push(`weather/${city.toLowerCase()}`)
+    }
     return (
         <PageContainer>
             <PageHeader title="Weather Overview" />
-            <CityList cities={cities} />
+            <CityList cities={cities} onClickAction={redirectToCity}/>
         </PageContainer>
     )
 }

@@ -1,0 +1,15 @@
+.city-page {
+    display: flex;
+    margin: 3rem;
+    padding: 2rem;
+    flex-direction: column;
+    background-color: white;
+}
+
+.city-page__row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}

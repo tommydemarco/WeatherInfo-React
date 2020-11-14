@@ -19,6 +19,12 @@
     padding: 2rem;
     flex: 1;
     width: 100%;
+    transition: all .4s;
+}
+
+.city-item:hover {
+    cursor: pointer;
+    box-shadow: 0 .5rem 2rem rgba(0, 0, 0, .2);
 }
 
 .city-item:not(:last-child) {

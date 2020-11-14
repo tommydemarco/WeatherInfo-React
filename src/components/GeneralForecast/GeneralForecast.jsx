@@ -4,8 +4,8 @@ import ForecastItem from '../ForecastItem/ForecastItem'
 //========> CSS
 import './GeneralForecast.styles.css'
 
-const renderForcastItem = (forecastData) => {
-    const { weekDay, hour, weatherConditions, temperature } = forecastData
+const renderForcastItem = (forecastItem) => {
+    const { weekDay, hour, weatherConditions, temperature } = forecastItem
     return <ForecastItem 
                 key={`${weekDay}${hour}`} 
                 temperature={temperature}
@@ -19,7 +19,7 @@ const GeneralForecast = ({ forecastItemList }) => {
     return (
         <div className="general-forecast">
             {
-                forecastItemList.map(forecastItem => renderForcastItem(forecastItemList))
+                forecastItemList.map(forecastItem => renderForcastItem(forecastItem))
             }
         </div>
     )
