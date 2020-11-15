@@ -6,19 +6,26 @@ import WeatherInfo from '../WeatherInfo/WeatherInfo'
 import { useSingleCityInfo } from '../../hooks/custom-hooks'
   
 
-const SingleCity = ({city, country, countryCode, eventOnClick, onSetGlobalWeather, globalWeather }) => {
+const SingleCity = ({city, country, countryCode, eventOnClick, actions, data }) => {
     //SINGLE CITY CUSTOM HOOK
-    const { error } = useSingleCityInfo(city, onSetGlobalWeather)
+    const { onSetGlobalWeather } = actions
+    const { globalWeather } = data
+    const { error } = useSingleCityInfo(city, onSetGlobalWeather, globalWeather)
+
+    const renderWeatherInfo = () => {
+        if (!globalWeather[city]) {
+            return <div>Loading content</div>
+        }
+        if (error) {
+            return <div className="error">{error}</div>
+        }
+        return <WeatherInfo temperature={globalWeather[city].temperature} weatherConditions={globalWeather[city].weatherConditions}/>
+
+    }
     return (
         <li className="city-item" onClick={() => eventOnClick(city, countryCode)}>
             <CityInfo city={city} country={country} />
-            {
-                !error ?
-                <WeatherInfo temperature={globalWeather[city].temperature} weatherConditions={globalWeather[city].weatherConditions}/>
-                :
-                <div className="error">{error}</div>
-            }
-            
+            {renderWeatherInfo()}            
         </li>
     )
 }

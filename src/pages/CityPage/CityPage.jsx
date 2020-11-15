@@ -17,38 +17,44 @@ import './CityPage.styles.css'
 
 
 
-const CityPage = ({ globalWeather, onSetGlobalWeather }) => {
+const CityPage = ({ data, actions }) => {
 
     const { city, countryCode } = useParams() 
 
+    const { globalWeather, weatherData, forecastItemList} = data
+    const { onSetGlobalWeather, onSetWeatherData, onSetForecastItemList} = actions
+
     //custom hooks
-    const { data, forecastItemList } = useCityDetailWeather(city, countryCode)
-    const { error } = useSingleCityInfo(city, onSetGlobalWeather)
-    
-    const weatherContitions = globalWeather[city].weatherConditions
-    const temperature = globalWeather[city].temperature
+    useCityDetailWeather(city, countryCode, onSetWeatherData, onSetForecastItemList, weatherData, forecastItemList )
+    const { error } = useSingleCityInfo(city, onSetGlobalWeather, globalWeather)
+
+    const renderWeatherinfo = () => {
+        if (!globalWeather[city] || !weatherData[city]  || !forecastItemList[city]  ) {
+            return <div>Loading</div>
+        }
+        const chartWeatherDataCity = weatherData[city]
+        const forecastItemListCity = forecastItemList[city]
+        return (
+            <React.Fragment>
+            <div className="city-page__row">
+                <CityInfo city={city} country={countryCode} />
+                <WeatherInfo weatherConditions={globalWeather[city].weatherConditions} temperature={globalWeather[city].temperature} />
+            </div>
+            <div className="city-page__row">
+                <ForecastChart data={forecastItemListCity} />
+            </div>
+            <div className="city-page__row">
+                <GeneralForecast forecastItemList={chartWeatherDataCity} />
+            </div>
+            </React.Fragment>
+        )
+    }
 
     return (
         <PageContainer>
             <PageHeader title={`Weather data for ${city}`} />
             <div className="city-page">
-                <div className="city-page__row">
-                    <CityInfo city={city} country={countryCode} />
-                    {
-                        !error ?
-                        <WeatherInfo weatherConditions={weatherContitions} temperature={temperature} />
-                        :
-                        <h2>There was an error fetching the data</h2>
-                    }
-                    
-                </div>
-                <div className="city-page__row">
-                    <ForecastChart data={data} />
-                </div>
-                <div className="city-page__row">
-                    <GeneralForecast forecastItemList={forecastItemList} />
-                </div>
-                    
+             {renderWeatherinfo()}
             </div>
         </PageContainer>
     )

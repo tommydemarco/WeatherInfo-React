@@ -1,0 +1,7 @@
+.contact-us-page {
+    display: flex;
+    margin: 3rem;
+    padding: 2rem;
+    flex-direction: column;
+    background-color: white;
+}

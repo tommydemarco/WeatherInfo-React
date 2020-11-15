@@ -5,6 +5,7 @@ import ForecastItem from '../ForecastItem/ForecastItem'
 import './GeneralForecast.styles.css'
 
 const renderForcastItem = (forecastItem) => {
+    console.log(forecastItem)
     const { weekDay, hour, weatherConditions, temperature } = forecastItem
     return <ForecastItem 
                 key={`${weekDay}${hour}`} 

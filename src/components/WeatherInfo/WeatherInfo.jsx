@@ -19,8 +19,7 @@ const WeatherInfo = ({ temperature, weatherConditions }) => {
 }
 
 WeatherInfo.propTypes = {
-    temperature: PropTypes.number.isRequired,
-    weatherConditions: PropTypes.oneOf(['cloud', 'cloudy', 'sunny', 'fog', 'rain']).isRequired
+    temperature: PropTypes.number
 }
 
 export default WeatherInfo

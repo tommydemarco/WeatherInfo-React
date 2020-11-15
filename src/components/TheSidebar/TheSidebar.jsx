@@ -18,7 +18,7 @@ const TheSidebar = () => {
                     <a className="sidebar__link" href="#">news</a>
                 </li>
                 <li className="sidebar__list-item">
-                    <a className="sidebar__link" href="#">contacts</a>
+                    <NavLink className="sidebar__link" to="/contacts">contacts</NavLink>
                 </li>
             </ul>
         </nav>

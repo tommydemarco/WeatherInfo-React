@@ -5,15 +5,19 @@ import moment from 'moment'
 import axios from 'axios'
 
 
-export const useSingleCityInfo = ( city, onSetGlobalWeather ) => {
+export const useSingleCityInfo = ( city, onSetGlobalWeather, globalWeather ) => {
 
     // const [ weather, setWeather ] = useState( {} )
     const [ error, setError ] = useState( null )
 
     useEffect( () => {
         const fetchWeather = async() => {
-            console.log( "I SHOULD BE CALLED 4 TIMES -- INTRO " )
+            console.log( "USE EFFECT CITY FETCHING CALLED" )
             try {
+                //creating the flag to prevent multiple requests
+                onSetGlobalWeather( {
+                    [ city ]: {}
+                } )
                 const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=808b3afebe739794e30619383d89e162`
                 const response = await axios.get( url )
                 const responseData = response.data
@@ -37,24 +41,30 @@ export const useSingleCityInfo = ( city, onSetGlobalWeather ) => {
                 }
             }
         }
-        fetchWeather()
-        console.log( "I SHOULD BE CALLED 4 TIMES -- OUTRO " )
+        if( !globalWeather[ city ] ) {
+            fetchWeather()
+        }
 
-    }, [ city, onSetGlobalWeather ] )
+
+    }, [ city, onSetGlobalWeather, globalWeather ] )
 
     return { error }
 }
 
 
-export const useCityDetailWeather = ( city, countryCode ) => {
-    const [ data, setData ] = useState( null )
-    const [ forecastItemList, setForecastItemList ] = useState( [] )
+export const useCityDetailWeather = ( city, countryCode, onSetForecastItemList, onSetWeatherData, weatherData, forecastItemList ) => {
+
 
     useEffect( () => {
         const fetchWeatherData = async() => {
             const apikey = '808b3afebe739794e30619383d89e162'
             const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city},${countryCode}&appid=${apikey}`
             try {
+                //creating the flag
+                onSetWeatherData( {
+                    [ city ]: []
+                } )
+
                 const { data } = await axios.get( url )
 
                 const daysArray = [ 0, 1, 2, 3, 4, 5 ]
@@ -74,10 +84,14 @@ export const useCityDetailWeather = ( city, countryCode ) => {
                     }
 
                 } ).filter( item => item.hasTemps )
-                setData( dataAux )
+                onSetWeatherData( {
+                    [ city ]: dataAux
+                } )
+
+                //creating the flag
+                onSetForecastItemList( { city: {} } )
 
                 const forecastInterval = [ 4, 8, 12, 16, 20, 24 ]
-
                 const forecastItemListAux = data.list.filter( ( item, index ) => forecastInterval.includes( index ) )
                     .map( item => {
                         return {
@@ -87,14 +101,17 @@ export const useCityDetailWeather = ( city, countryCode ) => {
                             temperature: Number( convertUnits( item.main.temp ).from( "K" ).to( "C" ).toFixed( 0 ) )
                         }
                     } )
-                setForecastItemList( forecastItemListAux )
+                onSetForecastItemList( {
+                    [ city ]: forecastItemListAux
+                } )
             } catch( e ) {
                 console.log( e )
             }
         }
-        fetchWeatherData()
+        if( !weatherData[ city ] && !forecastItemList[ city ] ) {
+            fetchWeatherData()
+        }
 
-    }, [ city, countryCode ] )
+    }, [ city, countryCode, forecastItemList, onSetForecastItemList, weatherData, onSetWeatherData ] )
 
-    return { data, forecastItemList }
 }

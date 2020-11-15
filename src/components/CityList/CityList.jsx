@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
+import PropTypes from 'prop-types'  
 //=======> COMPONENTS 
 import SingleCity from '../SingleCity/SingleCity'
 //=======> CSS
 import './CityList.styles.css'
 
-const renderCityAndCountry = (eventOnClick) => (CityAndCoutry, globalWeather, onSetGlobalWeather) => {
+const renderCityAndCountry = (eventOnClick) => (CityAndCoutry, data, actions) => {
     const { city, country, countryCode } = CityAndCoutry
     return (
         <SingleCity 
@@ -14,19 +14,19 @@ const renderCityAndCountry = (eventOnClick) => (CityAndCoutry, globalWeather, on
             city={city} 
             country={country} 
             countryCode={countryCode}
-            globalWeather={globalWeather}
-            onSetGlobalWeather={onSetGlobalWeather}
+            data={data}
+            actions={actions}
         />        
     )
 }
 
-const CityList = ({ cities, onClickAction, globalWeather, onSetGlobalWeather }) => {
+const CityList = ({ cities, onClickAction, data, actions }) => {
     
     return (
         <section className="main">
             <ul className="city-list">
                 {
-                    cities.map(cityAndCoutry => renderCityAndCountry(onClickAction)(cityAndCoutry, globalWeather, onSetGlobalWeather))
+                    cities.map(cityAndCoutry => renderCityAndCountry(onClickAction)(cityAndCoutry, data, actions))
                 }
             </ul>
         </section>       
