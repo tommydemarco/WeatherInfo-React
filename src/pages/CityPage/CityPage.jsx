@@ -11,7 +11,7 @@ import WeatherInfo from '../../components/WeatherInfo/WeatherInfo'
 import ForecastChart from '../../components/ForecastChart/ForecastChart'
 import GeneralForecast from '../../components/GeneralForecast/GeneralForecast'
 //======> CUSTOM HOOKS 
-import { useCityDetailWeather } from '../../hooks/custom-hooks'
+import { useCityDetailWeather, useSingleCityInfo } from '../../hooks/custom-hooks'
 //======> CSS
 import './CityPage.styles.css'
 
@@ -21,10 +21,12 @@ const CityPage = () => {
 
     const { city, countryCode } = useParams() 
 
+    //custom hooks
     const { data, forecastItemList } = useCityDetailWeather(city, countryCode)
+    const { weather, error } = useSingleCityInfo(city)
     
-    const weatherContitions = 'cloudy'
-    const temperature = 30
+    const weatherContitions = weather.weatherConditions
+    const temperature = weather.temperature
 
     return (
         <PageContainer>
@@ -32,7 +34,13 @@ const CityPage = () => {
             <div className="city-page">
                 <div className="city-page__row">
                     <CityInfo city={city} country={countryCode} />
-                    <WeatherInfo weatherConditions={weatherContitions} temperature={temperature} />
+                    {
+                        !error ?
+                        <WeatherInfo weatherConditions={weatherContitions} temperature={temperature} />
+                        :
+                        <h2>There was an error fetching the data</h2>
+                    }
+                    
                 </div>
                 <div className="city-page__row">
                     <ForecastChart data={data} />

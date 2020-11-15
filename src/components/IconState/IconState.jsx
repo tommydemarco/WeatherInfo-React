@@ -11,7 +11,8 @@ const whatIcon = {
     rain: WiRain,
     thunderstorm: WiThunderstorm,
     snow: WiSnow,
-    drizzle: WiRaindrops
+    drizzle: WiRaindrops,
+    "scattered clouds": WiCloud
 }
 
 const renderWeatherIcon = weatherConditions => {

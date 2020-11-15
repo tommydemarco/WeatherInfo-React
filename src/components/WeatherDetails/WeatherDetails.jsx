@@ -13,8 +13,8 @@ const WaetherDetails = ({ city, humidity, wind }) => {
 }
 
 WaetherDetails.propTypes = {
-    humidity: PropTypes.number.isRequired,
-    wind: PropTypes.number.isRequired,
+    humidity: PropTypes.number,
+    wind: PropTypes.number,
     city: PropTypes.string
 }
 

@@ -13,30 +13,28 @@ export const useSingleCityInfo = ( city ) => {
     useEffect( () => {
         const fetchWeather = async() => {
             try {
-                const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=808b3afebe739794e30619383d89e` //162`
+                const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=808b3afebe739794e30619383d89e162`
                 const response = await axios.get( url )
                 const responseData = response.data
                 setWeather( weather => ( {...weather,
                     temperature: Number( convertUnits( responseData.main.temp ).from( "K" ).to( "C" ).toFixed( 0 ) ),
                     weatherConditions: responseData.weather[ 0 ].description
                 } ) )
-                console.log( `USEEFFECT OF ${city.toUpperCase()}` )
-            } catch( error ) {
-                if( error.response ) {
+            } catch( e ) {
+                if( e.response ) {
                     setError( 'There was a problem loading your data' )
-                } else if( error.request ) {
-                    console.log( "There was an error" )
+                } else if( e.request ) {
+                    setError( 'There was a problem loading your data' )
                 } else {
-                    console.log( "There was an error" )
+                    setError( 'There was a problem loading your data' )
                 }
             }
         }
         fetchWeather()
-        console.log( "I SHOULD BE CALLED 8 TIMES" )
+        console.log( "I SHOULD BE CALLED 4 TIMES" )
 
-    }, [ city, weather, error ] )
+    }, [ city ] )
 
-    //returning the thing to be destructured in the usage of the custom hook
     return { weather, error }
 }
 
@@ -69,7 +67,6 @@ export const useCityDetailWeather = ( city, countryCode ) => {
                     }
 
                 } ).filter( item => item.hasTemps )
-                console.log( "Data Aux:", dataAux )
                 setData( dataAux )
 
                 const forecastInterval = [ 4, 8, 12, 16, 20, 24 ]
