@@ -17,16 +17,16 @@ import './CityPage.styles.css'
 
 
 
-const CityPage = () => {
+const CityPage = ({ globalWeather, onSetGlobalWeather }) => {
 
     const { city, countryCode } = useParams() 
 
     //custom hooks
     const { data, forecastItemList } = useCityDetailWeather(city, countryCode)
-    const { weather, error } = useSingleCityInfo(city)
+    const { error } = useSingleCityInfo(city, onSetGlobalWeather)
     
-    const weatherContitions = weather.weatherConditions
-    const temperature = weather.temperature
+    const weatherContitions = globalWeather[city].weatherConditions
+    const temperature = globalWeather[city].temperature
 
     return (
         <PageContainer>
