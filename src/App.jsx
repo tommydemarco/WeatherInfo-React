@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 //======> ROUTER 
 import { Switch, Route } from 'react-router-dom'
 //======> COMPONENTS 
@@ -12,6 +12,20 @@ import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
 import './App.css'
 
 const App = () => {
+
+  const [ globalWeather, setGlobalWeather ] = useState({
+    Madrid: { temperature:20 },
+    London: { temperature:20 },
+    Bologna: { temperature:55 },
+    Milano: { temperature:20 }
+  })
+
+  const onSetGlobalWeather = useMemo(() => (weather) => {
+    setGlobalWeather(globalWeather => {
+      return { ...globalWeather, ...weather}
+    })
+  }, [setGlobalWeather])
+
   return (
     <div className="app">
       <Switch>
@@ -19,10 +33,16 @@ const App = () => {
           <WelcomePage />
         </Route>
         <Route exact path="/weather">
-          <MainPage />
+          <MainPage 
+            globalWeather={globalWeather} 
+            onSetGlobalWeather={onSetGlobalWeather} 
+          />
         </Route>
         <Route exact path="/weather/:countryCode/:city">
-          <CityPage />
+          <CityPage 
+            globalWeather={globalWeather} 
+            onSetGlobalWeather={onSetGlobalWeather}
+          />
         </Route>
         <Route>
           <NotFoundPage />

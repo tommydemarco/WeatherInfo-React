@@ -5,21 +5,28 @@ import moment from 'moment'
 import axios from 'axios'
 
 
-export const useSingleCityInfo = ( city ) => {
+export const useSingleCityInfo = ( city, onSetGlobalWeather ) => {
 
-    const [ weather, setWeather ] = useState( {} )
+    // const [ weather, setWeather ] = useState( {} )
     const [ error, setError ] = useState( null )
 
     useEffect( () => {
         const fetchWeather = async() => {
+            console.log( "I SHOULD BE CALLED 4 TIMES -- INTRO " )
             try {
                 const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=808b3afebe739794e30619383d89e162`
                 const response = await axios.get( url )
                 const responseData = response.data
-                setWeather( weather => ( {...weather,
-                    temperature: Number( convertUnits( responseData.main.temp ).from( "K" ).to( "C" ).toFixed( 0 ) ),
-                    weatherConditions: responseData.weather[ 0 ].description
-                } ) )
+                onSetGlobalWeather( {
+                        [ city ]: {
+                            temperature: Number( convertUnits( responseData.main.temp ).from( "K" ).to( "C" ).toFixed( 0 ) ),
+                            weatherConditions: responseData.weather[ 0 ].description
+                        }
+                    } )
+                    // setWeather( weather => ( {...weather,
+                    //     temperature: Number( convertUnits( responseData.main.temp ).from( "K" ).to( "C" ).toFixed( 0 ) ),
+                    //     weatherConditions: responseData.weather[ 0 ].description
+                    // } ) )
             } catch( e ) {
                 if( e.response ) {
                     setError( 'There was a problem loading your data' )
@@ -31,11 +38,11 @@ export const useSingleCityInfo = ( city ) => {
             }
         }
         fetchWeather()
-        console.log( "I SHOULD BE CALLED 4 TIMES" )
+        console.log( "I SHOULD BE CALLED 4 TIMES -- OUTRO " )
 
-    }, [ city ] )
+    }, [ city, onSetGlobalWeather ] )
 
-    return { weather, error }
+    return { error }
 }
 
 
