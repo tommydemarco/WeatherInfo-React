@@ -17,16 +17,15 @@ import './CityPage.styles.css'
 
 
 
-const CityPage = ({ data, actions }) => {
+const CityPage = ({ data, dispatch }) => {
 
     const { city, countryCode } = useParams() 
 
     const { globalWeather, weatherData, forecastItemList} = data
-    const { onSetGlobalWeather, onSetWeatherData, onSetForecastItemList} = actions
 
     //custom hooks
-    useCityDetailWeather(city, countryCode, onSetWeatherData, onSetForecastItemList, weatherData, forecastItemList )
-    const { error } = useSingleCityInfo(city, onSetGlobalWeather, globalWeather)
+    useCityDetailWeather(city, countryCode, dispatch, weatherData, forecastItemList )
+    const { error } = useSingleCityInfo(city, dispatch, globalWeather)
 
     const renderWeatherinfo = () => {
         if (!globalWeather[city] || !weatherData[city]  || !forecastItemList[city]  ) {

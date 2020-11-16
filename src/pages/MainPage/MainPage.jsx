@@ -13,7 +13,7 @@ const cities = [
     {city: "Madrid", country: "Spain", countryCode: "ES"}
   ]
 
-const MainPage = ({ data, actions }) => {
+const MainPage = ({ data, dispatch }) => {
     const history = useHistory()
     const redirectToCity = (city, countryCode) => {
         history.push(`/weather/${countryCode}/${city}`)
@@ -23,7 +23,7 @@ const MainPage = ({ data, actions }) => {
             <PageHeader title="Weather Overview" />
             <CityList 
                 data={data}
-                actions={actions}
+                dispatch={dispatch}
                 cities={cities} 
                 onClickAction={redirectToCity}
             />

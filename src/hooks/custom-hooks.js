@@ -5,7 +5,7 @@ import moment from 'moment'
 import axios from 'axios'
 
 
-export const useSingleCityInfo = ( city, onSetGlobalWeather, globalWeather ) => {
+export const useSingleCityInfo = ( city, dispatch, globalWeather ) => {
 
     // const [ weather, setWeather ] = useState( {} )
     const [ error, setError ] = useState( null )
@@ -15,22 +15,24 @@ export const useSingleCityInfo = ( city, onSetGlobalWeather, globalWeather ) => 
             console.log( "USE EFFECT CITY FETCHING CALLED" )
             try {
                 //creating the flag to prevent multiple requests
-                onSetGlobalWeather( {
-                    [ city ]: {}
+                dispatch( {
+                    type: "SET_GLOBAL_WEATHER",
+                    payload: {
+                        [ city ]: {}
+                    }
                 } )
                 const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=808b3afebe739794e30619383d89e162`
                 const response = await axios.get( url )
                 const responseData = response.data
-                onSetGlobalWeather( {
+                dispatch( {
+                    type: "SET_GLOBAL_WEATHER",
+                    payload: {
                         [ city ]: {
                             temperature: Number( convertUnits( responseData.main.temp ).from( "K" ).to( "C" ).toFixed( 0 ) ),
                             weatherConditions: responseData.weather[ 0 ].description
                         }
-                    } )
-                    // setWeather( weather => ( {...weather,
-                    //     temperature: Number( convertUnits( responseData.main.temp ).from( "K" ).to( "C" ).toFixed( 0 ) ),
-                    //     weatherConditions: responseData.weather[ 0 ].description
-                    // } ) )
+                    }
+                } )
             } catch( e ) {
                 if( e.response ) {
                     setError( 'There was a problem loading your data' )
@@ -46,13 +48,13 @@ export const useSingleCityInfo = ( city, onSetGlobalWeather, globalWeather ) => 
         }
 
 
-    }, [ city, onSetGlobalWeather, globalWeather ] )
+    }, [ city, dispatch, globalWeather ] )
 
     return { error }
 }
 
 
-export const useCityDetailWeather = ( city, countryCode, onSetForecastItemList, onSetWeatherData, weatherData, forecastItemList ) => {
+export const useCityDetailWeather = ( city, countryCode, dispatch, weatherData, forecastItemList ) => {
 
 
     useEffect( () => {
@@ -61,8 +63,11 @@ export const useCityDetailWeather = ( city, countryCode, onSetForecastItemList, 
             const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city},${countryCode}&appid=${apikey}`
             try {
                 //creating the flag
-                onSetWeatherData( {
-                    [ city ]: []
+                dispatch( {
+                    type: "SET_WEATHER_DATA",
+                    payload: {
+                        [ city ]: []
+                    }
                 } )
 
                 const { data } = await axios.get( url )
@@ -84,12 +89,15 @@ export const useCityDetailWeather = ( city, countryCode, onSetForecastItemList, 
                     }
 
                 } ).filter( item => item.hasTemps )
-                onSetWeatherData( {
-                    [ city ]: dataAux
+                dispatch( {
+                    type: "SET_WEATHER_DATA",
+                    payload: {
+                        [ city ]: dataAux
+                    }
                 } )
 
                 //creating the flag
-                onSetForecastItemList( { city: {} } )
+                dispatch( { type: "SET_CHART_DATA", payload: { city: {} } } )
 
                 const forecastInterval = [ 4, 8, 12, 16, 20, 24 ]
                 const forecastItemListAux = data.list.filter( ( item, index ) => forecastInterval.includes( index ) )
@@ -101,8 +109,11 @@ export const useCityDetailWeather = ( city, countryCode, onSetForecastItemList, 
                             temperature: Number( convertUnits( item.main.temp ).from( "K" ).to( "C" ).toFixed( 0 ) )
                         }
                     } )
-                onSetForecastItemList( {
-                    [ city ]: forecastItemListAux
+                dispatch( {
+                    type: "SET_CHART_DATA",
+                    payload: {
+                        [ city ]: forecastItemListAux
+                    }
                 } )
             } catch( e ) {
                 console.log( e )
@@ -112,6 +123,6 @@ export const useCityDetailWeather = ( city, countryCode, onSetForecastItemList, 
             fetchWeatherData()
         }
 
-    }, [ city, countryCode, forecastItemList, onSetForecastItemList, weatherData, onSetWeatherData ] )
+    }, [ city, countryCode, forecastItemList, weatherData, dispatch ] )
 
 }

@@ -13,9 +13,18 @@ const ContactsPage = () => {
                 <form className="contacts">
                     <input className="contacts__input" type="text" placeholder="Your Name" />
                     <input className="contacts__input" type="text" placeholder="Your Email" />
-                    <textarea className="contacts__input" placeholder="Your Message" ></textarea>
-                    <button classNane="contacts__button">Contact us</button>
+                    <textarea className="contacts__input" type="text"  placeholder="Your Message" ></textarea>
+                    <button className="contacts__button" >Contact us</button>
                 </form>
+                <div className="contact-description">
+                    <h3 className="contact-description__title">We are happy to hear from you!</h3>
+                    <p className="contact-description__desc">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                        Vitae numquam at eos consequuntur accusantium beatae ex aperiam 
+                        veritatis saepe iste ullam aut quaerat, dolorum, repudiandae 
+                        ducimus iure laboriosam recusandae iusto.
+                    </p>
+                </div>
             </div>
 
         </PageContainer>

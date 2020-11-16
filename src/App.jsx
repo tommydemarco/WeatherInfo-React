@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useReducer } from 'react'
 //======> ROUTER 
 import { Switch, Route } from 'react-router-dom'
 //======> COMPONENTS 
@@ -14,39 +14,74 @@ import './App.css'
 
 const App = () => {
 
-  const [ globalWeather, setGlobalWeather ] = useState({})
-  const [ weatherData, setWeatherData ] = useState( {} )
-  const [ forecastItemList, setForecastItemList ] = useState([])
-
-  const onSetGlobalWeather = useCallback((weather) => {
-    setGlobalWeather(globalWeather => {
-      return { ...globalWeather, ...weather}
-    })
-  }, [setGlobalWeather])
-
-  const onSetWeatherData = useCallback((weather) => {
-    setWeatherData((weatherData) => ({ ...weatherData, ...weather})) 
-  }, [setWeatherData])
-
-  const onSetForecastItemList = useCallback((weather) => {
-    setForecastItemList((forecastItemList) => ({...forecastItemList, ...weather}))
-  }, [setForecastItemList])
-
-  const actions = useMemo(() => {
-    return {
-      onSetGlobalWeather,
-      onSetWeatherData,
-      onSetForecastItemList
+  const initialValue = {
+    globalWeather: {},
+    weatherData: {},
+    forecastItemList: {}
+  }
+  const reducer = (state, action) => {
+    switch(action.type) {
+      case "SET_GLOBAL_WEATHER":
+        const newWeather = action.payload
+        const newGlobalWeather = { ...state.globalWeather, ...newWeather}
+        return {
+          ...state, 
+          globalWeather: newGlobalWeather
+        }
+      case "SET_WEATHER_DATA":
+        const newData = action.payload
+        const newWeatherData = {...state.weatherData,
+        ...newData}
+        return {
+          ...state,
+          weatherData: newWeatherData
+        }
+      case "SET_CHART_DATA":
+        const newChartData = action.payload
+        const newChartDataList = {...state.forecastItemList, ...newChartData}
+        return {
+          ...state,
+          forecastItemList: newChartDataList
+        }
+      default:
+        return state 
     }
-  }, [ onSetGlobalWeather, onSetWeatherData, onSetForecastItemList ])
+  }
+  const [state, dispatch] = useReducer(reducer, initialValue)
 
-  const data = useMemo(() => (
-    { 
-      globalWeather,
-      weatherData,
-      forecastItemList
-    }
-  ), [globalWeather, weatherData, forecastItemList])
+  // const [ globalWeather, setGlobalWeather ] = useState({})
+  // const [ weatherData, setWeatherData ] = useState( {} )
+  // const [ forecastItemList, setForecastItemList ] = useState([])
+
+  // const onSetGlobalWeather = useCallback((weather) => {
+  //   setGlobalWeather(globalWeather => {
+  //     return { ...globalWeather, ...weather}
+  //   })
+  // }, [setGlobalWeather])
+
+  // const onSetWeatherData = useCallback((weather) => {
+  //   setWeatherData((weatherData) => ({ ...weatherData, ...weather})) 
+  // }, [setWeatherData])
+
+  // const onSetForecastItemList = useCallback((weather) => {
+  //   setForecastItemList((forecastItemList) => ({...forecastItemList, ...weather}))
+  // }, [setForecastItemList])
+
+  // const actions = useMemo(() => {
+  //   return {
+  //     onSetGlobalWeather,
+  //     onSetWeatherData,
+  //     onSetForecastItemList
+  //   }
+  // }, [ onSetGlobalWeather, onSetWeatherData, onSetForecastItemList ])
+
+  // const data = useMemo(() => (
+  //   { 
+  //     globalWeather,
+  //     weatherData,
+  //     forecastItemList
+  //   }
+  // ), [globalWeather, weatherData, forecastItemList])
 
 
   return (
@@ -57,14 +92,14 @@ const App = () => {
         </Route>
         <Route exact path="/weather">
           <MainPage 
-            data={data} 
-            actions={actions} 
+            data={state} 
+            dispatch={dispatch} 
           />
         </Route>
         <Route exact path="/weather/:countryCode/:city">
           <CityPage 
-            data={data} 
-            actions={actions}
+            data={state} 
+            dispatch={dispatch}
           />
         </Route>
         <Route exact path="/contacts">
