@@ -5,7 +5,7 @@ import SingleCity from '../SingleCity/SingleCity'
 //=======> CSS
 import './CityList.styles.css'
 
-const renderCityAndCountry = (eventOnClick) => (CityAndCoutry, data, dispatch) => {
+const renderCityAndCountry = (eventOnClick) => (CityAndCoutry) => {
     const { city, country, countryCode } = CityAndCoutry
     return (
         <SingleCity 
@@ -14,19 +14,17 @@ const renderCityAndCountry = (eventOnClick) => (CityAndCoutry, data, dispatch) =
             city={city} 
             country={country} 
             countryCode={countryCode}
-            data={data}
-            dispatch={dispatch}
         />        
     )
 }
 
-const CityList = ({ cities, onClickAction, data, dispatch }) => {
+const CityList = ({ cities, onClickAction }) => {
     
     return (
         <section className="main">
             <ul className="city-list">
                 {
-                    cities.map(cityAndCoutry => renderCityAndCountry(onClickAction)(cityAndCoutry, data, dispatch))
+                    cities.map(cityAndCoutry => renderCityAndCountry(onClickAction)(cityAndCoutry))
                 }
             </ul>
         </section>       

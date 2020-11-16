@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 //lang translation for moment 
 import 'moment/locale/it'
 //======> ROUTER 
@@ -12,14 +12,20 @@ import ForecastChart from '../../components/ForecastChart/ForecastChart'
 import GeneralForecast from '../../components/GeneralForecast/GeneralForecast'
 //======> CUSTOM HOOKS 
 import { useCityDetailWeather, useSingleCityInfo } from '../../hooks/custom-hooks'
+//======> CONTEXT PROVIDER 
+import { weatherDispatchContext, weatherStateContext} from '../../components/WeatherContext/WeatherContext'
 //======> CSS
 import './CityPage.styles.css'
 
 
 
-const CityPage = ({ data, dispatch }) => {
+const CityPage = () => {
 
     const { city, countryCode } = useParams() 
+
+    //state and dispatch from the context provider 
+    const data = useContext(weatherStateContext)
+    const dispatch = useContext(weatherDispatchContext)
 
     const { globalWeather, weatherData, forecastItemList} = data
 
@@ -40,10 +46,10 @@ const CityPage = ({ data, dispatch }) => {
                 <WeatherInfo weatherConditions={globalWeather[city].weatherConditions} temperature={globalWeather[city].temperature} />
             </div>
             <div className="city-page__row">
-                <ForecastChart data={forecastItemListCity} />
+                <ForecastChart data={chartWeatherDataCity} />
             </div>
             <div className="city-page__row">
-                <GeneralForecast forecastItemList={chartWeatherDataCity} />
+                <GeneralForecast forecastItemList={forecastItemListCity} />
             </div>
             </React.Fragment>
         )

@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 //========> COMPONENTS 
 import CityInfo from '../CityInfo/CityInfo'
 import WeatherInfo from '../WeatherInfo/WeatherInfo'
 //========> CUSTOM HOOKS 
 import { useSingleCityInfo } from '../../hooks/custom-hooks'
+//=======> CONTEXT PROVIDERS
+import { weatherDispatchContext, weatherStateContext} from '../WeatherContext/WeatherContext'
   
 
-const SingleCity = ({city, country, countryCode, eventOnClick, dispatch, data }) => {
+const SingleCity = ({city, country, countryCode, eventOnClick }) => {
+
+    const data = useContext(weatherStateContext)
+    const dispatch = useContext(weatherDispatchContext)
     //SINGLE CITY CUSTOM HOOK
     const { globalWeather } = data
     const { error } = useSingleCityInfo(city, dispatch, globalWeather)
