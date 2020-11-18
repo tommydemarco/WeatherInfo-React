@@ -20,7 +20,7 @@ const SingleCity = ({city, country, countryCode, eventOnClick }) => {
         if (!globalWeather[city]) {
             return <div>Loading content</div>
         }
-        if (error) {
+        if (globalWeatherError) {
             return <div className="error">There was an error while fetching the data</div>
         }
         return <WeatherInfo temperature={globalWeather[city].temperature} weatherConditions={globalWeather[city].weatherConditions}/>
