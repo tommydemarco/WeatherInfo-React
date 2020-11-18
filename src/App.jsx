@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useReducer } from 'react'
 //======> ROUTER 
 import { Switch, Route } from 'react-router-dom'
 //======> COMPONENTS 
@@ -9,74 +9,42 @@ import CityPage from './pages/CityPage/CityPage'
 import MainPage from './pages/MainPage/MainPage'
 import ContactsPage from './pages/ContactsPage/ContactsPage'
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
+//======> CONTEXT PROVIDER 
+import WeatherContext from './components/WeatherContext/WeatherContext'
 //======> CSS
 import './App.css'
 
 const App = () => {
 
-  const [ globalWeather, setGlobalWeather ] = useState({})
-  const [ weatherData, setWeatherData ] = useState( {} )
-  const [ forecastItemList, setForecastItemList ] = useState([])
-
-  const onSetGlobalWeather = useCallback((weather) => {
-    setGlobalWeather(globalWeather => {
-      return { ...globalWeather, ...weather}
-    })
-  }, [setGlobalWeather])
-
-  const onSetWeatherData = useCallback((weather) => {
-    setWeatherData((weatherData) => ({ ...weatherData, ...weather})) 
-  }, [setWeatherData])
-
-  const onSetForecastItemList = useCallback((weather) => {
-    setForecastItemList((forecastItemList) => ({...forecastItemList, ...weather}))
-  }, [setForecastItemList])
-
-  const actions = useMemo(() => {
-    return {
-      onSetGlobalWeather,
-      onSetWeatherData,
-      onSetForecastItemList
-    }
-  }, [ onSetGlobalWeather, onSetWeatherData, onSetForecastItemList ])
-
-  const data = useMemo(() => (
-    { 
-      globalWeather,
-      weatherData,
-      forecastItemList
-    }
-  ), [globalWeather, weatherData, forecastItemList])
-
-
   return (
-    <div className="app">
-      <Switch>
-        <Route exact path="/">
-          <WelcomePage />
-        </Route>
-        <Route exact path="/weather">
-          <MainPage 
-            data={data} 
-            actions={actions} 
-          />
-        </Route>
-        <Route exact path="/weather/:countryCode/:city">
-          <CityPage 
-            data={data} 
-            actions={actions}
-          />
-        </Route>
-        <Route exact path="/contacts">
-          <ContactsPage />
-        </Route>
-        <Route>
-          <NotFoundPage />
-        </Route>
-      </Switch>
-      {/* <CityList cities={cities} /> */}
-      <TheSidebar />
-    </div>
+
+    //CONTEXT PROVIDER FOR THE GLOBAL STATE 
+    <WeatherContext>
+
+      <div className="app">
+        <Switch>
+          <Route exact path="/">
+            <WelcomePage />
+          </Route>
+          <Route exact path="/weather">
+            <MainPage />
+          </Route>
+          <Route exact path="/weather/:countryCode/:city">
+            <CityPage />
+          </Route>
+          <Route exact path="/contacts">
+            <ContactsPage />
+          </Route>
+          <Route>
+            <NotFoundPage />
+          </Route>
+        </Switch>
+        
+        {/* FIXED SIDEBAR */}
+        <TheSidebar />
+      </div>
+
+    </WeatherContext>
   )
 }
 
