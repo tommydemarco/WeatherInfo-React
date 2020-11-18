@@ -14,14 +14,14 @@ const SingleCity = ({city, country, countryCode, eventOnClick }) => {
     const dispatch = useContext(weatherDispatchContext)
     //SINGLE CITY CUSTOM HOOK
     const { globalWeather } = data
-    const { error } = useSingleCityInfo(city, dispatch, globalWeather)
+    const { globalWeatherError } = useSingleCityInfo(city, dispatch, globalWeather)
 
     const renderWeatherInfo = () => {
         if (!globalWeather[city]) {
             return <div>Loading content</div>
         }
         if (error) {
-            return <div className="error">{error}</div>
+            return <div className="error">There was an error while fetching the data</div>
         }
         return <WeatherInfo temperature={globalWeather[city].temperature} weatherConditions={globalWeather[city].weatherConditions}/>
 

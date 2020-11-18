@@ -21,19 +21,24 @@ import './CityPage.styles.css'
 
 const CityPage = () => {
 
+    //GETTING THE VARIABLES OUT OF THE URL WITH THE HOOK USEPARAMS
     const { city, countryCode } = useParams() 
 
-    //state and dispatch from the context provider 
+    //GETTING THE GLOBAL STATE AND THE DISPATCH FUNCTION FROM THE CONTEXT PROVIDERS
     const data = useContext(weatherStateContext)
     const dispatch = useContext(weatherDispatchContext)
 
+    //EXTRACTING ALL THE PIECES OF THE GLOBAL STATE
     const { globalWeather, weatherData, forecastItemList} = data
 
-    //custom hooks
-    useCityDetailWeather(city, countryCode, dispatch, weatherData, forecastItemList )
-    const { error } = useSingleCityInfo(city, dispatch, globalWeather)
+    //CUSTOM HOOKS IN CHARGE OF MAKING API CALLS AND UPDATING THE GLOBAL STATE W/ DISPATCH
+    const { weatherDetailError } = useCityDetailWeather(city, countryCode, dispatch, weatherData, forecastItemList )
+    const { globalWeatherError } = useSingleCityInfo(city, dispatch, globalWeather)
 
     const renderWeatherinfo = () => {
+        if (weatherDetailError || globalWeatherError) {
+            return <div>There was an error while fetching the data</div>
+        }
         if (!globalWeather[city] || !weatherData[city]  || !forecastItemList[city]  ) {
             return <div>Loading</div>
         }

@@ -1,16 +1,19 @@
 import React, { useReducer } from 'react'
 
+//creating the contexts to which you can pass valued to then be retrieved
+//with the hook =====> useContext(nameOfTheContextComponent)
 const weatherDispatchContext = React.createContext() 
 const weatherStateContext = React.createContext() 
 
-//initial value for useReducer
+
+
+//INITIAL VALUE FOR USEREDUCER
 const initialValue = {
     globalWeather: {},
     weatherData: {},
     forecastItemList: {}
   }
-
-//reducer for useReducer
+//REDUCER FUCTION FOR USEREDUCER()
 const reducer = (state, action) => {
 switch(action.type) {
     case "SET_GLOBAL_WEATHER":
@@ -22,8 +25,7 @@ switch(action.type) {
     }
     case "SET_WEATHER_DATA":
     const newData = action.payload
-    const newWeatherData = {...state.weatherData,
-    ...newData}
+    const newWeatherData = {...state.weatherData, ...newData}
     return {
         ...state,
         weatherData: newWeatherData
@@ -40,8 +42,12 @@ switch(action.type) {
 }
 }
 
+//THE WEATHER CONTEXT COMPONENT THAT HOLDS THE GLOBAL STATE + CONTEXT PROVIDERS TO DELIVER IT
 const WeatherContext = ({ children }) => {
-    //the global state 
+    
+    //HOW USE REDUCER WORKS
+    //you use the use reducer hook passing in the reducer function 
+    //and the initial state and from it you can destructure the state object and dispatch
     const [state, dispatch] = useReducer(reducer, initialValue)
 
     return (

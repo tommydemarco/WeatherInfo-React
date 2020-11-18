@@ -19,7 +19,6 @@ const App = () => {
   return (
 
     //CONTEXT PROVIDER FOR THE GLOBAL STATE 
-    //all the logic: components/WeatherContext
     <WeatherContext>
 
       <div className="app">
@@ -40,6 +39,8 @@ const App = () => {
             <NotFoundPage />
           </Route>
         </Switch>
+        
+        {/* FIXED SIDEBAR */}
         <TheSidebar />
       </div>
 
