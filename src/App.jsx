@@ -14,38 +14,41 @@ import WeatherContext from './components/WeatherContext/WeatherContext'
 //======> CSS
 import './App.css'
 
-const App = () => {
+class App extends React.Component {
 
-  return (
+  render() {
+    return (
 
-    //CONTEXT PROVIDER FOR THE GLOBAL STATE 
-    <WeatherContext>
-
-      <div className="app">
-        <Switch>
-          <Route exact path="/">
-            <WelcomePage />
-          </Route>
-          <Route exact path="/weather">
-            <MainPage />
-          </Route>
-          <Route exact path="/weather/:countryCode/:city">
-            <CityPage />
-          </Route>
-          <Route exact path="/contacts">
-            <ContactsPage />
-          </Route>
-          <Route>
-            <NotFoundPage />
-          </Route>
-        </Switch>
-        
-        {/* FIXED SIDEBAR */}
-        <TheSidebar />
-      </div>
-
-    </WeatherContext>
-  )
+      //CONTEXT PROVIDER FOR THE GLOBAL STATE 
+      <WeatherContext>
+  
+        <div className="app">
+          <Switch>
+            <Route exact path="/">
+              <WelcomePage />
+            </Route>
+            <Route exact path="/weather">
+              <MainPage />
+            </Route>
+            <Route exact path="/weather/:countryCode/:city">
+              <CityPage />
+            </Route>
+            <Route exact path="/contacts">
+              <ContactsPage />
+            </Route>
+            <Route>
+              <NotFoundPage />
+            </Route>
+          </Switch>
+          
+          {/* FIXED SIDEBAR */}
+          <TheSidebar />
+        </div>
+  
+      </WeatherContext>
+    )
+  }
+  
 }
 
 export default App
